@@ -1,0 +1,27 @@
+#Given a binary tree and an integer k, check whether the tree has a root to leaf path with a sum of values equal to k.
+
+
+from collections import deque
+def path_sum(root, k):
+    
+    if not root: 
+        return False 
+    
+    q = deque()
+    q.append( (root,k- root.val))
+    while q:
+        
+        node,sumleft=q.popleft()
+        
+        if not node.left_ptr and not node.right_ptr and sumleft ==0:
+            return True
+            
+        if node.left_ptr :
+            q.append((node.left_ptr, sumleft - node.left_ptr.val))
+
+        if node.right_ptr:
+            q.append((node.right_ptr, sumleft - node.right_ptr.val))
+            
+
+    
+    return False
