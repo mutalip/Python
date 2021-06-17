@@ -1,0 +1,31 @@
+# Least Common Ancestor
+
+# Find the lowest common ancestor (LCA) of two nodes in a binary tree of n nodes. Given references to the root node and nodes a and b of the tree, return the value from the LCA node of a and b.
+
+# The LCA of nodes a and b in a tree is defined as the shared ancestor node of a and b that is located farthest from the root.
+
+
+#class Node(object):
+#    def __init__(self, data, left=None, right=None):
+#        self.data = data
+#        self.left = left
+#        self.right = right
+
+
+def lca(root, a, b):
+    if root is None:
+        return
+    # base
+    if root in (a,b):
+        return root.data
+    else:
+        left = None
+        right = None
+        if root.left:
+            left = lca(root.left, a, b)
+        if root.right:
+            right = lca(root.right, a, b)
+        if left and right:
+            return root.data
+        else:
+            return left or right
