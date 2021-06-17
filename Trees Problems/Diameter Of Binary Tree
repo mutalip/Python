@@ -1,0 +1,24 @@
+# Diameter Of Binary Tree
+
+# Given a binary tree, find its diameter.
+
+def binary_tree_diameter(root):
+    highest = [0]
+    def rec(root):
+        # base
+        if not root.left_ptr and not root.right_ptr:
+            return 0
+        # rec
+        else:
+            l = r = 0
+            sides = 0
+            if root.left_ptr:
+                l = rec(root.left_ptr)
+                sides += 1
+            if root.right_ptr:
+                r = rec(root.right_ptr)
+                sides += 1
+            highest[0] = max(highest[0], l + r + sides)
+            return max(l,r) + 1
+    rec(root)
+    return highest[0]
