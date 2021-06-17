@@ -1,0 +1,28 @@
+# Construct a Binary Search Tree whose preorder traversal matches with a given list.
+
+# Example One
+
+# Input: [ 1, 0, 2 ]
+def build_binary_search_tree(preorder):
+    
+    
+    def helper(preorder,minn, maxn):
+        
+        global index
+        if index == len(preorder):
+            return None
+        
+        if  preorder[index] < minn or preorder[index] > maxn:
+            return None
+            
+        node = TreeNode(preorder[index])
+
+        
+        index +=1
+        node.left_ptr = helper(preorder, minn, node.label-1)
+        node.right_ptr = helper(preorder,node.label+1, maxn)
+        return node
+    
+    global index
+    index =0
+    return helper(preorder,-math.inf,  math.inf )
