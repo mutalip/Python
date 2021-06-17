@@ -33,8 +33,14 @@ def flipUpsideDown(root):
         next_rootLeft =  root.right_ptr
         next_rootRight = root
         
+        
         root.right_ptr = lastRight
         root.left_ptr = lastLeft
         
         if not next_root:
             return root
+            
+        root = next_root
+        lastRight =  next_rootRight
+        lastLeft = next_rootLeft
+        
