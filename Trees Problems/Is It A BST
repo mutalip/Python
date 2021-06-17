@@ -20,31 +20,22 @@ Is It A BST
 # complete the function below
 
 def isBST(root):
-    # base case
-    if not root:
-        return True
-    
-    # helper
-    return util_is_bst(root)
-
-def util_is_bst(root):
+    # inorder traversal:
     stack = []
     prev = None
+    
     while True:
         while root:
-            # append root to stack and move to left
             stack.append(root)
             root = root.left_ptr
         
-        # if stack has something pop it
+        # print root
         if len(stack) == 0:
             break
         root = stack.pop()
-        if prev and root.val < prev.val:
+        if prev and prev.val > root.val:
             return False
-        else:
-            prev = root
+        prev = root
         root = root.right_ptr
-    
+        
     return True
-    
