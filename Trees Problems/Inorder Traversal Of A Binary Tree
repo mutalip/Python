@@ -1,0 +1,30 @@
+# Given a binary tree, find the inorder traversal of its nodes’ labels.
+
+# Example One
+
+# Input: 
+
+def inorder(root):  # TreeNode
+    # Stack for keeping nodes.
+    st = []
+    # Results.
+    result = []
+    # For each node, do exactly one of the following:
+    #
+    # 1) If it is not None, put it on the stack and get it's left child.
+    # 2) If it is None, and there is a node on the stack, pop it off, add it to the
+    # solution, and get it's right child.
+    # 3) We are done.
+    n = root
+    while True:
+        if n:
+            st.append(n)
+            n = n.left_ptr
+        elif st:
+            n = st.pop()
+            result.append(n.label)
+            n = n.right_ptr
+        else:
+            break
+
+    return result
