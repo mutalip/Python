@@ -1,0 +1,27 @@
+# Given a binary tree, find the number of unival subtrees. An unival tree is a tree that has the same value in every node.
+
+def findSingleValueTrees(root):
+    
+    tree_count = [0]
+    if not root:
+        return 0
+    helper(root, tree_count)
+    return tree_count[0]
+
+def helper(root, tree_count):
+    
+    if not root.left_ptr and not root.right_ptr:
+        tree_count[0] += 1
+        return True
+        
+    ltr, rtr = True, True
+    if root.left_ptr:
+        ltr = helper(root.left_ptr, tree_count) and root.val == root.left_ptr.val
+    
+    if root.right_ptr:
+        rtr = helper(root.right_ptr, tree_count) and root.val == root.right_ptr.val
+    
+    if ltr and rtr:
+        tree_count[0] +=1 
+        
+    return ltr and rtr
