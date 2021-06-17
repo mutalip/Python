@@ -1,0 +1,33 @@
+# Given a Binary Tree and an integer k, find all the root to leaf paths that sum to k.
+
+
+result = []
+
+def all_paths_sum_k(root, k):
+    if root is None:
+        return -1
+    global result
+    dfs(root,k,[])
+    if len(result) ==0:
+        result.append([-1])
+    return result
+
+def dfs(node,target,slate):
+    #Base Case 
+    if node.left_ptr is None and node.right_ptr is None:
+        if target == node.val:
+            slate.append(node.val)
+            global result
+            result.append(slate[:].copy())
+            slate.pop()
+        return result
+    
+    # recursive case
+    # Left Tree
+    slate.append(node.val)
+    if node.left_ptr:
+        dfs(node.left_ptr,target - node.val,slate)
+    # Right Tree 
+    if node.right_ptr:
+        dfs(node.right_ptr,target - node.val,slate)
+    slate.pop()
