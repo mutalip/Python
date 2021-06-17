@@ -1,0 +1,106 @@
+# Merge Two BSTs
+
+# Given two Binary Search Trees (BSTs), your task is to merge them into a single height-balanced BST. 
+
+
+'''
+    class TreeNode():
+        def __init__(self, val=None, left_ptr=None, right_ptr=None):
+            self.val = val
+            self.left_ptr = left_ptr
+            self.right_ptr = right_ptr
+
+    The function accepts two TREENODEs as inputs
+    and is expected to return a TREENODE.
+
+    Complete the function below.
+'''
+
+def InOrder(node, node_list):
+
+    #Recursion
+    if (node.left_ptr != None):
+        InOrder(node.left_ptr, node_list)
+        
+    node_list.append(node)
+        
+    if (node.right_ptr != None):
+        InOrder(node.right_ptr, node_list)        
+
+
+def Build_BST(root_list, first_ind, last_ind):
+    #Base
+    if first_ind > last_ind:
+        return None
+        
+    #Recursion
+    mid_ind = first_ind + (last_ind - first_ind) // 2
+    root_list[mid_ind].left_ptr = Build_BST(root_list, first_ind, mid_ind - 1)
+    root_list[mid_ind].right_ptr = Build_BST(root_list, mid_ind + 1, last_ind)
+    
+    return root_list[mid_ind]
+    
+
+def merge_two_BSTs(root1, root2):
+
+    root1_list = []
+    root2_list = []
+    
+    InOrder(root1, root1_list) # Build an InOrder list of nodes
+    InOrder(root2, root2_list) # Build an InOrder list of nodes
+
+    # Join the two sorted lists
+    root_list = []
+    ind1 = 0
+    ind2 = 0
+    while (ind1 < len(root1_list)) and (ind2 < len(root2_list)):
+        if root1_list[ind1].val < root2_list[ind2].val:
+            root_list.append(root1_list[ind1])
+            ind1 = ind1 + 1 
+        else:
+            root_list.append(root2_list[ind2])
+            ind2 = ind2 + 1
+            
+    while (ind1 < len(root1_list)):        
+        root_list.append(root1_list[ind1])
+        ind1 = ind1 + 1
+
+    while (ind2 < len(root2_list)):        
+        root_list.append(root2_list[ind2])
+        ind2 = ind2 + 1
+
+    # Build the BST out of list
+    return Build_BST(root_list, 0, len(root_list) - 1)
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+        
