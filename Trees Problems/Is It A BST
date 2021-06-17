@@ -1,0 +1,50 @@
+Is It A BST
+
+# Given a binary tree, check if it is a binary search tree (BST). A valid BST does not have to be complete or balanced.
+
+# Consider the below definition of a BST:
+
+# All nodes values of left subtree are less than or equal to parent node value
+# All nodes values of right subtree are greater than or equal to parent node value
+# Both left subtree and right subtree must be a BST
+# By definition, NULL tree is a BST
+# By definition, trees having a single node or leaf nodes are BST.
+
+
+# class TreeNode():
+#    def __init__(self, val=None, left_ptr=None, right_ptr=None):
+#        self.val = val
+#        self.left_ptr = left_ptr
+#        self.right_ptr = right_ptr
+
+# complete the function below
+
+def isBST(root):
+    # base case
+    if not root:
+        return True
+    
+    # helper
+    return util_is_bst(root)
+
+def util_is_bst(root):
+    stack = []
+    prev = None
+    while True:
+        while root:
+            # append root to stack and move to left
+            stack.append(root)
+            root = root.left_ptr
+        
+        # if stack has something pop it
+        if len(stack) == 0:
+            break
+        root = stack.pop()
+        if prev and root.val < prev.val:
+            return False
+        else:
+            prev = root
+        root = root.right_ptr
+    
+    return True
+    
