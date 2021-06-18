@@ -11,12 +11,12 @@
 def _kthsmallest(A, i, B):
     if not A:
         return None
-    kthsmallest = self._kthsmallest(A.left, i, B)
+    kthsmallest = _kthsmallest(A.left_ptr, i, B)
     if kthsmallest is None:
         if i[0] == B:
             return A.val
         i[0] += 1
-        kthsmallest = self._kthsmallest(A.right, i, B)
+        kthsmallest = _kthsmallest(A.right_ptr, i, B)
     return kthsmallest
 
 # @param A : root node of tree
