@@ -1,0 +1,34 @@
+# Balanced BST From A Sorted Array
+
+# Given N distinct integers in a sorted array, build a balanced binary search tree (BST).
+
+# A BST is called balanced if the number of nodes in the left and right subtrees of every node differs by at most one.
+
+# Example
+
+# Input: [8 10 12 15 16 20 25]
+
+# Output:
+
+
+# complete this function
+
+'''
+    For your reference:
+    
+    class TreeNode:
+    def __init__(self, node_value):
+        self.val = node_value
+        self.left_ptr = None
+        self.right_ptr = None
+'''
+
+def build_balanced_bst(a):
+    
+    if len(a) == 0:
+        return None
+    mid = len(a)//2
+    root = TreeNode(a[mid])
+    root.left_ptr = build_balanced_bst(a[:mid])
+    root.right_ptr = build_balanced_bst(a[mid+1:])
+    return root
