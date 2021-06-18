@@ -1,0 +1,26 @@
+# Kth Smallest Element Of BST
+
+# Given a binary search tree (BST) and an integer k, find k-th smallest element.
+
+# Example
+
+# Input:
+
+# BST:
+
+def _kthsmallest(A, i, B):
+    if not A:
+        return None
+    kthsmallest = self._kthsmallest(A.left, i, B)
+    if kthsmallest is None:
+        if i[0] == B:
+            return A.val
+        i[0] += 1
+        kthsmallest = self._kthsmallest(A.right, i, B)
+    return kthsmallest
+
+# @param A : root node of tree
+# @param B : integer
+# @return an integer
+def kth_smallest_element(root, k):
+    return _kthsmallest(root, [1], k)
