@@ -1,0 +1,45 @@
+Count Connected Components In An Undirected Graph
+
+Given an undirected graph, find its total number of connected components.
+
+
+#
+# The function accepts an INTEGER and a two-dimensional INTEGER_ARRAY as parameters and is expected to return an INTEGER.
+#
+from collections import deque
+def number_of_connected_components(n, edges):
+    # Write your code here
+    
+    # build a graph
+    adjList = [[] for _ in range(n)]
+    for edge in edges:
+        src, dst = edge
+        adjList[src].append(dst)
+        adjList[dst].append(src)
+        
+    visited = [False] * n
+    
+    
+    def bfs(node):
+        
+        visited[node] = True
+        
+        q = deque([node])
+        while q:
+            curr = q.popleft()
+            for neighbor in adjList[curr]:
+                if not visited[neighbor]:
+                    visited[neighbor] = True
+                    q.append(neighbor)
+                
+    
+    components = 0
+    for i in range(n):
+        if not visited[i]:
+            components += 1
+            bfs(i)
+    
+    return components
+    
+
+    
