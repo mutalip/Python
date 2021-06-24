@@ -1,0 +1,74 @@
+Friendly Groups
+
+There are n people living in a town. Some of them dislike each other. Given the value of n and the pairs of people disliking each other, check if we can divide the people of the town into two sets such that each person belongs to exactly one set and no two persons disliking each other belong to the same set.
+
+Example One:
+
+Input: n: 5, Disliking pairs: (0, 2) (1, 2) (1, 4) (2, 3) (3, 4). 
+
+Output: True
+
+The people can be partitioned into two sets [0, 1, 3] and [2, 4].
+
+Example Two:
+
+Input: n: 4, Disliking pairs: (0, 1) (0, 2) (0, 3) (1, 2) (2, 3). 
+
+Output: False
+
+
+
+'''
+    The function accepts an INTEGER and two INTEGER ARRAYS as inputs
+    and is expected to return a BOOLEAN.
+
+    Complete the function below.
+'''
+def can_be_divided(num_of_people, dislike1, dislike2):
+    from collections import deque
+    
+    n = num_of_people
+    
+    visited = [0] * n
+    distance = [None] * n
+    parent = [None] * n
+    adj = [[] for _ in range(n)]
+    
+    for i in range(len(dislike1)):
+        u = dislike1[i]
+        v = dislike2[i]
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    #print(f'{adj}')
+        
+    def bfs(node):
+        q = deque()
+        distance[node] = 0
+        visited[node] = 1
+        q.append(node)
+        while q:
+            u = q.popleft()
+            for v in adj[u]:
+                if not visited[v]:
+                    visited[v] = 1
+                    parent[v] = u
+                    distance[v] = distance[u] + 1
+                    q.append(v)
+                else:
+                    #print(f'edge {u}, {v} distances {distance[u]} and {distance[v]}')
+                    if v != parent[u] and distance[v] == distance[u]:
+                        return False # not bi-partite
+        return True
+    
+    components = 0
+    
+    for i in range(n):
+        if not visited[i]:
+            components += 1
+            if not bfs(i):
+                return 0
+    
+    return 1
+        
+    
