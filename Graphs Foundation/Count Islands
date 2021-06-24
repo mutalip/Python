@@ -1,0 +1,88 @@
+Count Islands
+
+Given a two-dimensional boolean matrix, find the number of islands.
+
+An island is a group of connected 1s or a standalone 1. A cell in the matrix can be connected to up to 8 neighbors: 2 vertical, 2 horizontal and 4 diagonal.
+
+Example
+
+Input:
+
+[
+
+    [1, 1, 0, 0, 0],
+
+    [0, 1, 0, 0, 1],
+
+    [1, 0, 0, 1, 1],
+
+    [0, 0, 0, 0, 0],
+
+    [1, 0, 1, 0, 1]
+
+]
+
+Output: 5
+
+(0 0), (0 1), (1 1) and (2 0) make an island.
+
+(1 4), (2 4) and (2 3) make an island. 
+
+(4 0) makes an island.
+
+(4 2) makes an island.
+
+(4 4) makes an island.
+
+
+#
+#Complete the function count_islands
+#The function takes integers 2D integer array, matrix, as parameter.
+#
+#dfs version
+def count_islands(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    # edge case - all 1s large matrix
+    total = 0
+    for row in range(rows):
+        total += sum(matrix[row])
+        
+    if total == rows * cols: return 1
+    
+    # no build graph since grid, but get_neighbors instead
+    def get_neighbors(i, j):
+        neighbors = []
+        for m, n in [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]:
+            r = i+m
+            c = j+n
+            if(r<0 or r>=rows or c<0 or c>=cols): #out of bounds
+                continue
+            if matrix[r][c] == 1:
+                neighbors.append((r,c))
+        return neighbors
+        
+    # print(get_neighbors(1,0))
+    
+    # dfs
+    def dfs(node):
+        x,y = node
+        matrix[x][y] = 2 #visited
+        for neighbor in get_neighbors(x,y):
+            a,b = neighbor
+            if matrix[a][b] == 1:
+                dfs(neighbor)
+        return
+    
+    #outer loop
+    islands = 0
+    
+    for i in range(rows):
+        for j in range(cols):
+            if matrix[i][j] == 1:
+                dfs((i,j))
+                islands += 1
+                
+    return islands
+
