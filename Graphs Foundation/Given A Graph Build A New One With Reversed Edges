@@ -1,0 +1,48 @@
+Given A Graph Build A New One With Reversed Edges
+
+Given a strongly connected directed graph, build a new graph with the same number of nodes but every edge reversed. This is also called transposing a graph.
+
+
+# Complete the function below.
+
+# For your reference:
+#
+# class Node:
+#     def __init__(self):
+#         self.val = 0
+#         self.neighbours = []
+from collections import deque
+def build_other_graph(node):
+    visited = set()
+    q = deque()
+
+    node_to_clone = Node()
+    node_to_clone.val = node.val
+    clone_dict = {}
+    clone_dict[node.val] = node_to_clone
+
+    q.append(node)
+    visited.add(node.val)
+
+    while q:
+        cur = q.popleft()
+        cloned_cur = clone_dict[cur.val]
+        
+        if not cur.neighbours:
+            break
+        
+        for neighbour in cur.neighbours:
+            if neighbour.val in clone_dict:
+                cloned_neighbour = clone_dict[neighbour.val]
+            else:
+                cloned_neighbour = Node()
+                cloned_neighbour.val = neighbour.val
+            
+            cloned_neighbour.neighbours.append(cloned_cur)
+            clone_dict[neighbour.val] = cloned_neighbour
+            
+            if neighbour.val not in visited:
+                visited.add(neighbour.val)
+                q.append(neighbour)
+    
+    return node_to_clone
