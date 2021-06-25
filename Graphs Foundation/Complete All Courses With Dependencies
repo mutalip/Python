@@ -1,0 +1,48 @@
+Complete All Courses With Dependencies
+
+A certain university has n courses to offer and to graduate from that university, a student must complete all of the courses. Some of the courses have a set of prerequisite courses. One can take a course only after completing all of its prerequisites. Dependencies between the courses are described by two arrays a and b of the same size: course a[i] must be taken before course b[i] for all valid indices. Is it possible to complete all the courses without violating constraints?
+
+Example One
+
+Input: n = 4, a = [1, 1, 3], b = [0, 2, 1]
+
+Output: true 
+
+One possible ordering is 3, 1, 0, 2.
+
+Example Two
+
+Input: n = 4, a = [1, 1, 3, 0], b = [0, 2, 1, 3]
+
+Output: false
+
+Every possible ordering of the courses violates at least one of the constraints.
+
+from collections import deque
+
+def can_be_completed(n, a, b):
+    adj_list = [[] for _ in range(n)]
+    for i in range(len(a)):
+        adj_list[a[i]].append(b[i])
+        
+    indegree = [0] * n
+    for dst in b:
+        indegree[dst] += 1
+        
+    queue = deque()
+    for i in range(n):
+        if indegree[i] == 0:
+            queue.append(i)
+            
+    while queue:
+        node = queue.popleft()
+        for neighbor in adj_list[node]:
+            indegree[neighbor] -= 1
+            if indegree[neighbor] == 0:
+                queue.append(neighbor)
+                
+    for i in indegree:
+        if i > 0:
+            return False
+            
+    return True
